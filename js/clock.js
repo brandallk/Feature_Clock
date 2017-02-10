@@ -45,7 +45,7 @@
 const clock = function() {
 
   // VARIABLES-----------------------------------------------------------------
-  const tickInterval = 1000; // Number of miliseconds per clock "tick"
+  const tickInterval = 300; // Number of miliseconds per clock "tick"
   const twelveHours = 12 * 60 * 60; // 12 hours in seconds
   const oneHour = twelveHours / 12; // 1 hour in seconds
 
@@ -91,15 +91,15 @@ const clock = function() {
 
   // ROTATOR OBJECTS-----------------------------------------------------------
   const rotators = [];  // An array to collect all the rotating elements
-  rotators[0] = new Rotator("#A1Inner", increment.A1Inner, 322.83, 322.825);
-  rotators[1] = new Rotator("#A1Outer", increment.A1Outer, 322.83, 322.825);
-  rotators[2] = new Rotator("#A2Spokes", increment.A2Spokes, 322.83, 322.825);
+  rotators[0] = new Rotator("#A1Inner", increment.A1Inner, 322.822, 322.824);
+  rotators[1] = new Rotator("#A1Outer", increment.A1Outer, 322.822, 322.824);
+  rotators[2] = new Rotator("#A2Spokes", increment.A2Spokes, 322.822, 322.824);
   rotators[3] = new Rotator("#Hours", increment.hours, 181.297, 241.115);
-  rotators[4] = new Rotator("#MinutesC1", increment.minutesC1, 438.179, 340.736);
+  rotators[4] = new Rotator("#MinutesC1", increment.minutesC1, 438.187, 340.738);
   rotators[5] = new Rotator("#Minutes", increment.minutes, 464.347, 241.115);
   rotators[6] = new Rotator("#SecondsD1", increment.secondsD1, 109.378, 447.193);
-  rotators[7] = new Rotator("#SecondsD2", increment.secondsD2, 173.208, 444.12);
-  rotators[8] = new Rotator("#SecondsD3", increment.secondsD3, 222.039, 486.243);
+  rotators[7] = new Rotator("#SecondsD2", increment.secondsD2, 173.202, 444.138);
+  rotators[8] = new Rotator("#SecondsD3", increment.secondsD3, 222.033, 486.261);
   rotators[9] = new Rotator("#Seconds", increment.seconds, 322.822, 486.243);
 
   // PUBLIC METHODS------------------------------------------------------------
