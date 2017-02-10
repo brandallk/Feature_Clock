@@ -48,9 +48,10 @@
 const clock = function() {
 
   // VARIABLES-----------------------------------------------------------------
-  const tickInterval = 300; // Number of miliseconds per clock "tick"
-  const twelveHours = 12 * 60 * 60; // 12 hours in seconds
-  const oneHour = twelveHours / 12; // 1 hour in seconds
+  const tickInterval = 300,           // Number of miliseconds per clock "tick"
+        twelveHours  = 12 * 60 * 60,  // 12 hours in seconds
+        oneHour      = twelveHours / 12, // 1 hour in seconds
+        isRunning    = false;            // Tracks whether clock is running
 
   // Degrees of rotation per clock tick defined for each rotating element
   const increment = {
@@ -90,6 +91,13 @@ const clock = function() {
     stop() {
       clearInterval(this.interval);
     }
+    reset() {
+      this.rotation = 0;
+      // Use "transform: rotate()" attribute to set rotation angle back to original
+      // position
+      jQuery(this.selector).attr("transform",
+        "rotate(" + this.rotation + " " + this.svgXCoord + " " + this.svgYCoord + ")");
+    }
   }
 
   // ROTATOR OBJECTS-----------------------------------------------------------
@@ -111,17 +119,26 @@ const clock = function() {
     rotators.forEach(function(rotator) {
       rotator.start();
     });
+    this.isRunning = true;
   }
   function stop() {
     // Call the stop() method on each object in the "rotators" array
     rotators.forEach(function(rotator) {
       rotator.stop();
     });
+    this.isRunning = false;
+  }
+  function reset() {
+    rotators.forEach(function(rotator) {
+      rotator.reset();
+    });
   }
 
   return {
+    isRunning : isRunning,
     start : start,
-    stop : stop
+    stop : stop,
+    reset: reset
   };
 
 }();

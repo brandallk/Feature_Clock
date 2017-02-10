@@ -327,6 +327,7 @@
 
       <button id="start">START</button>
       <button id="stop">STOP</button>
+      <button id="reset">RESET</button>
 
     </div> <!-- end wrapper -->
 
@@ -355,6 +356,14 @@
         clock.stop();
         $(this).toggle();
         $( "#start").toggle();
+      });
+
+      // When RESET button is clicked, reset all gears back to original rotation
+      // position. Only allow reset if clock is stopped.
+      $( "#reset").click(function() {
+        if(!clock.isRunning) {
+          clock.reset();
+        }
       });
     </script>
   </body>
