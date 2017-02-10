@@ -92,9 +92,9 @@ const clock = function() {
       clearInterval(this.interval);
     }
     reset() {
-      this.rotation = 0;
       // Use "transform: rotate()" attribute to set rotation angle back to original
       // position
+      this.rotation = 0;
       jQuery(this.selector).attr("transform",
         "rotate(" + this.rotation + " " + this.svgXCoord + " " + this.svgYCoord + ")");
     }
@@ -136,9 +136,9 @@ const clock = function() {
 
   return {
     isRunning : isRunning,
-    start : start,
-    stop : stop,
-    reset: reset
+    start     : start,
+    stop      : stop,
+    reset     : reset
   };
 
 }();

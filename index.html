@@ -5,6 +5,7 @@
     <title>Clockworks Animation Demo</title>
     <meta name="description" content="Clockworks Animation Demo">
     <meta name="viewport" content="width=device-width">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu+Condensed" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
   </head>
   <body>
@@ -325,9 +326,11 @@
         </g>
       </svg>
 
-      <button id="start">START</button>
-      <button id="stop">STOP</button>
-      <button id="reset">RESET</button>
+      <section class="buttons">
+        <button id="start" class="button">START</button>
+        <button id="stop" class="button">STOP</button>
+        <button id="reset" class="button">RESET</button>
+      </section>
 
     </div> <!-- end wrapper -->
 
@@ -339,28 +342,30 @@
 
     <!-- Initialize the app by assigning event handlers for the buttons -->
     <script>
-      $( "#start").show();  // START button is visible when app loads
-      $( "#stop").hide();   // STOP button is hidden when app loads
+      $("#start").show();  // START button is visible when app loads
+      $("#stop").hide();   // STOP button is hidden when app loads
 
       // When START button is clicked, start clock animation, hide START button,
       // and show STOP button
-      $( "#start").click(function() {
+      $("#start").click(function() {
         clock.start();
         $(this).toggle();
-        $( "#stop").toggle();
+        $("#stop").toggle();
+        $("#reset").addClass("disabled");
       });
 
       // When STOP button is clicked, stop clock animation, hide STOP button,
       // and show START button
-      $( "#stop").click(function() {
+      $("#stop").click(function() {
         clock.stop();
         $(this).toggle();
-        $( "#start").toggle();
+        $("#start").toggle();
+        $("#reset").removeClass("disabled");
       });
 
       // When RESET button is clicked, reset all gears back to original rotation
       // position. Only allow reset if clock is stopped.
-      $( "#reset").click(function() {
+      $("#reset").click(function() {
         if(!clock.isRunning) {
           clock.reset();
         }

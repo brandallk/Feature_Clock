@@ -1,0 +1,22 @@
+.buttons {
+  text-align: center;
+  margin: 1.5em 0;
+}
+
+.button {
+  width: 4.5em;
+  height: 2.2em;
+  margin: 0.5em;
+  border: #74a588 solid 3px;
+  border-radius: 0.5em;
+  background: #5c7a6f;
+  color: #f2f2f2;
+  font-family: 'Ubuntu Condensed', sans-serif;
+  font-weight: bold;
+  font-size: 1em;
+}
+
+.button.disabled {
+  background: #b3b3b3;
+  border-color: #ccc;
+}
