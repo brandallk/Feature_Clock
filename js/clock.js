@@ -38,6 +38,9 @@
 // clicking these buttons is what starts and stops the animation. It might be
 // cleaner to move the event handlers inside the clock module somehow, and then
 // define a single public method "init" which would be used to initiate the app.
+// 9.   The clock gears seem to get out of sync in the animation if you run it
+// faster than about 300ms per tickInterval. This seems to be because of the
+// sampling rate the browser uses to render the image.
 //
 // Future work: Need to add methods to "clock" for getting and setting the time,
 // resetting the time, and for setting the clock animation speed.
