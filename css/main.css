@@ -26,6 +26,7 @@ body {
   font-family: 'Ubuntu Condensed', sans-serif;
   font-weight: bold;
   font-size: 1em;
+  box-shadow: 0 0 2px 2px rgba(199, 219, 207, 0.7);
 }
 
 .button.disabled {
@@ -46,6 +47,6 @@ body {
 
 .selected {
   background: #f3e019;
-  border-color: #fff94c;
+  border-color: #f8ec75;
   color: white;
 }
