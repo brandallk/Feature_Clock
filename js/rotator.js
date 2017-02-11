@@ -27,6 +27,14 @@ var rotator = function($) {
       this.tickInterval = tickInterval; // Number of miliseconds per clock "tick"
       this.rotate       = this.rotate.bind(this);
     }
+    setDirection(direction) {
+      // Controls whether the rotation is clockwise or counterclockwise. The "direction"
+      // argument must be either 1 or -1. If direction=1, the next time the clock
+      // starts, rotation will be in the same direction as the last time the clock
+      // started. If direction=(-1), the next time the clock starts, rotation
+      // direction will change.
+      this.increment = this.increment * direction;
+    }
     rotate() {
       this.rotation += this.increment;
       // Add a "transform: rotate()" attribute to the selected SVG element

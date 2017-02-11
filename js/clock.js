@@ -34,10 +34,11 @@
 const clock = function() {
 
   // VARIABLES-----------------------------------------------------------------
-  const tickInterval = 300,           // Number of miliseconds per clock "tick"
-        twelveHours  = 12 * 60 * 60,  // 12 hours in seconds
-        oneHour      = twelveHours / 12, // 1 hour in seconds
-        isRunning    = false;            // Tracks whether clock is running
+  const tickInterval    = 300, // Number of miliseconds per clock "tick" (set in method below)
+        twelveHours   = 12 * 60 * 60,  // 12 hours in seconds
+        oneHour       = twelveHours / 12, // 1 hour in seconds
+        isRunning     = false;            // Tracks whether clock is running
+        $changeDirection = false;         // Tracks rotation direction change
 
   // Degrees of rotation per clock tick defined for each rotating element
   const increment = {
@@ -67,11 +68,32 @@ const clock = function() {
   rotators[9] = new rotator.Rotator("#Seconds", increment.seconds, 322.822, 486.243, tickInterval);
 
   // PUBLIC METHODS------------------------------------------------------------
-  function start() {
+  function keepSameDirection() {
+    $changeDirection = false;
+  }
+  function changeDirection() {
+    $changeDirection = true;
+  }
+  function startSameDirection() {
     // Call the start() method on each object in the "rotators" array
     rotators.forEach(function(rotator) {
+      rotator.setDirection(1); // Don't change rotation direction
       rotator.start();
     });
+  }
+  function startOppositeDirection() {
+    // Call the start() method on each object in the "rotators" array
+    rotators.forEach(function(rotator) {
+      rotator.setDirection(-1); // Change rotation direction
+      rotator.start();
+    });
+  }
+  function start() {
+    if($changeDirection) {
+      startOppositeDirection();
+    } else {
+      startSameDirection();
+    }
     this.isRunning = true;
   }
   function stop() {
@@ -89,6 +111,8 @@ const clock = function() {
 
   return {
     isRunning : isRunning,
+    keepSameDirection : keepSameDirection,
+    changeDirection : changeDirection,
     start     : start,
     stop      : stop,
     reset     : reset

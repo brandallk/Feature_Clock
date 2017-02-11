@@ -1,6 +1,12 @@
+body {
+  font-family: 'Ubuntu Condensed', sans-serif;
+  font-weight: bold;
+}
+
 .buttons {
   text-align: center;
-  margin: 1.5em 0;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
 }
 
 .button {
@@ -19,4 +25,19 @@
 .button.disabled {
   background: #b3b3b3;
   border-color: #ccc;
+}
+
+.options {
+  text-align: center;
+  margin-bottom: 0.5em;
+}
+
+.options .button {
+  width: 2.2em;
+  border-radius: 50%;
+}
+
+.selected {
+  background: coral;
+  border-color: lightcoral;
 }
