@@ -9,23 +9,71 @@ const app = function($) {
     $("#start").show();  // START button is visible when app loads
     $("#stop").hide();   // STOP button is hidden when app loads
 
-    $("#forward").click(function() {
-      if($("#forward").hasClass("selected")) { // If "forward" is already selected,
-        clock.keepSameDirection();             // don't change direction.
-      } else {                                 // But if "reverse" is selected...
-        $("#forward").addClass("selected");
+    $("#forward").click(function() { // When ">" button is clicked...
+      // If "forward" is already selected, don't change direction. But do toggle
+      // button "selected" status if necessary.
+      if($("#forward").hasClass("selected") || $("#fastForward").hasClass("selected")) {
+        clock.keepSameDirection();
+        if($("#fastForward").hasClass("selected")) {
+          $("#forward").addClass("selected");
+          $("#fastForward").removeClass("selected");
+        }
+      } else { // And if "reverse" was last selected...
+        $("#forward").addClass("selected");    // Toggle button "selected" status
         $("#reverse").removeClass("selected");
-        clock.changeDirection();               // ...then change direction.
+        $("#fastReverse").removeClass("selected");
+        clock.changeDirection();               // and also change direction.
       }
     });
 
-    $("#reverse").click(function() {
-      if($("#reverse").hasClass("selected")) { // If "reverse" is already selected,
-        clock.keepSameDirection();             // don't change direction.
-      } else {                                 // But if "forward" is selected...
-        $("#reverse").addClass("selected");
+    $("#fastForward").click(function() { // When ">>" button is clicked...
+      // If "forward" is already selected, don't change direction. But do toggle
+      // button "selected" status if necessary.
+      if($("#forward").hasClass("selected") || $("#fastForward").hasClass("selected")) {
+        clock.keepSameDirection();
+        if($("#forward").hasClass("selected")) {
+          $("#fastForward").addClass("selected");
+          $("#forward").removeClass("selected");
+        }
+      } else { // And if "reverse" was last selected...
+        $("#fastForward").addClass("selected");    // Toggle button "selected" status
+        $("#reverse").removeClass("selected");
+        $("#fastReverse").removeClass("selected");
+        clock.changeDirection();               // and also change direction.
+      }
+    });
+
+    $("#reverse").click(function() { // When "<" button is clicked...
+      // If "reverse" is already selected, don't change direction. But do toggle
+      // button "selected" status if necessary.
+      if($("#reverse").hasClass("selected") || $("#fastReverse").hasClass("selected")) {
+        clock.keepSameDirection();
+        if($("#fastReverse").hasClass("selected")) {
+          $("#reverse").addClass("selected");
+          $("#fastReverse").removeClass("selected");
+        }
+      } else { // And if "forward" was last selected...
+        $("#reverse").addClass("selected");    // Toggle button "selected" status
         $("#forward").removeClass("selected");
-        clock.changeDirection();               // ...then change direction.
+        $("#fastForward").removeClass("selected");
+        clock.changeDirection();               // and also change direction.
+      }
+    });
+
+    $("#fastReverse").click(function() { // When "<<" button is clicked...
+      // If "reverse" is already selected, don't change direction. But do toggle
+      // button "selected" status if necessary.
+      if($("#reverse").hasClass("selected") || $("#fastReverse").hasClass("selected")) {
+        clock.keepSameDirection();
+        if($("#reverse").hasClass("selected")) {
+          $("#fastReverse").addClass("selected");
+          $("#reverse").removeClass("selected");
+        }
+      } else { // And if "forward" was last selected...
+        $("#fastReverse").addClass("selected");    // Toggle button "selected" status
+        $("#forward").removeClass("selected");
+        $("#fastForward").removeClass("selected");
+        clock.changeDirection();               // and also change direction.
       }
     });
 
@@ -46,13 +94,20 @@ const app = function($) {
       $("#start").toggle();
       $("#reset").removeClass("disabled");
 
-      // Prevent unexpected direction change by triggering a fresh "click" event
-      // on whichever direction button is currently selected.
+      // Prevent unexpected direction change next time the clock starts by
+      // silently triggering a fresh "click" event on whichever direction button
+      // ("<" or ">") is currently selected.
       if($("#forward").hasClass("selected")) {
         $("#forward").trigger("click");
       }
+      if($("#fastForward").hasClass("selected")) {
+        $("#fastForward").trigger("click");
+      }
       if($("#reverse").hasClass("selected")) {
         $("#reverse").trigger("click");
+      }
+      if($("#fastReverse").hasClass("selected")) {
+        $("#fastReverse").trigger("click");
       }
     });
 
