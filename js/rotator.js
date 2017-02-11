@@ -1,10 +1,11 @@
 // This module creates a Rotator class to be instatiated for each rotating element
 // (i.e. gear) in the clock. It returns a rotator.Rotator object that is used in
 // the clock.js module. It contains the basic methods for rotating elements,
-// starting rotation, stopping rotation, and reseting to original position.
+// starting rotation, stopping rotation, changing rotation direction, and reseting
+// to original position.
 // Notes:
-// 1.   The setInterval function must be given a name because you need the name
-// in order to use clearInterval. That is why the Rotator class includes an
+// 1.   The setInterval() function must be given a name because you need the name
+// in order to use clearInterval(). That is why the Rotator class includes an
 // "interval" variable that is initially set to null.
 // 2.   The rotate() method in the Rotator class had to have "this" rebound to it
 // (at the bottom of the constructor block) because when the start() method
@@ -26,6 +27,11 @@ var rotator = function($) {
       this.svgYCoord    = svgYCoord; // SVG y-coordinate for the rotator's center
       this.tickInterval = tickInterval; // Number of miliseconds per clock "tick"
       this.rotate       = this.rotate.bind(this);
+    }
+    setTickInterval(tick) {
+      // Adjust for either "normal" or "fast" clock animation speed, depending
+      // on the value passed in for "tick"
+      this.tickInterval = tick;
     }
     setDirection(direction) {
       // Controls whether the rotation is clockwise or counterclockwise. The "direction"

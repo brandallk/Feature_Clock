@@ -11,7 +11,7 @@
 // and also https://css-tricks.com/transforms-on-svg-elements/
 // 2.   The names for the various rotating elements correspond to the layer names
 // in the Adobe Illustrator file from which the clock SVG was created.
-// 3.   The turn-rate ratios of the various rotating elements is fairly self-evident
+// 3.   The turn-rate ratios of the various rotating elements are fairly self-evident
 // except for those of the "seconds" group (D1, D2, and D3). These 3 gears are
 // designed to multiply the outer-wheel's turn-rate by a factor of 60 in 3 steps.
 // So each multiplies the turn-rate by a factor of 60^(1/3) for a combined step-up
@@ -19,13 +19,8 @@
 // 4.   The rate at which the clock runs is controlled by the "tickInterval"
 // variable. If it is set to 1000 (ms), then the clock runs at normal speed. If
 // if is set to <1000, the clock will run at fast-forward speed.
-// 5.   The clock module's "start" and "stop" methods are assigned to index.html's
-// "start" and "stop" buttons in a script tag at the bottom of the html. So
-// clicking these buttons is what starts and stops the animation. It might be
-// cleaner to move the event handlers inside the clock module somehow, and then
-// define a single public method "init" which would be used to initiate the app.
-// 6.   The clock gears seem to get out of sync in the animation if you run it
-// faster than about 300ms per tickInterval. This seems to be because of the
+// 5.   The clock gears seem to get out of sync in the animation if you run it
+// faster than about 120ms per tickInterval. This seems to be because of the
 // sampling rate the browser uses to render the image.
 //
 // Future work: Need to add methods to "clock" for getting and setting the time,
@@ -34,8 +29,8 @@
 const clock = function() {
 
   // VARIABLES-----------------------------------------------------------------
-  const tickInterval    = 300, // Number of miliseconds per clock "tick" (set in method below)
-        twelveHours   = 12 * 60 * 60,  // 12 hours in seconds
+  let tickInterval    = 1000; // (Default) number of miliseconds per clock "tick"
+  const twelveHours   = 12 * 60 * 60,  // 12 hours in seconds
         oneHour       = twelveHours / 12, // 1 hour in seconds
         isRunning     = false;            // Tracks whether clock is running
         $changeDirection = false;         // Tracks rotation direction change
@@ -68,6 +63,13 @@ const clock = function() {
   rotators[9] = new rotator.Rotator("#Seconds", increment.seconds, 322.822, 486.243, tickInterval);
 
   // PUBLIC METHODS------------------------------------------------------------
+  function setSpeed(speed) {
+    if(speed == "normal") {
+      tickInterval = 1000; // Miliseconds per "tick" stays at default value
+    } else {
+      tickInterval = 200;  // Fast speed: 125 miliseconds per clock "tick"
+    }
+  }
   function keepSameDirection() {
     $changeDirection = false;
   }
@@ -77,6 +79,7 @@ const clock = function() {
   function startSameDirection() {
     // Call the start() method on each object in the "rotators" array
     rotators.forEach(function(rotator) {
+      rotator.setTickInterval(tickInterval); // Set to either normal or fast speed
       rotator.setDirection(1); // Don't change rotation direction
       rotator.start();
     });
@@ -84,6 +87,7 @@ const clock = function() {
   function startOppositeDirection() {
     // Call the start() method on each object in the "rotators" array
     rotators.forEach(function(rotator) {
+      rotator.setTickInterval(tickInterval); // Set to either normal or fast speed
       rotator.setDirection(-1); // Change rotation direction
       rotator.start();
     });
@@ -111,6 +115,7 @@ const clock = function() {
 
   return {
     isRunning : isRunning,
+    setSpeed : setSpeed,
     keepSameDirection : keepSameDirection,
     changeDirection : changeDirection,
     start     : start,

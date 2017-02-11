@@ -10,70 +10,91 @@ const app = function($) {
     $("#stop").hide();   // STOP button is hidden when app loads
 
     $("#forward").click(function() { // When ">" button is clicked...
-      // If "forward" is already selected, don't change direction. But do toggle
-      // button "selected" status if necessary.
-      if($("#forward").hasClass("selected") || $("#fastForward").hasClass("selected")) {
-        clock.keepSameDirection();
-        if($("#fastForward").hasClass("selected")) {
-          $("#forward").addClass("selected");
-          $("#fastForward").removeClass("selected");
+      if(!clock.isRunning) { // Prevent speed or direction reset if clock is running
+        clock.setSpeed("normal");
+        // If "forward" is already selected, don't change direction. But do toggle
+        // button "selected" status if necessary.
+        if($("#forward").hasClass("selected") || $("#fastForward").hasClass("selected")) {
+          clock.keepSameDirection();
+          if($("#fastForward").hasClass("selected")) {
+            $("#forward").addClass("selected");
+            $("#fastForward").removeClass("selected");
+          }
+        } else { // And if "reverse" was last selected...
+          $("#forward").addClass("selected");    // Toggle button "selected" status
+          $("#reverse").removeClass("selected");
+          $("#fastReverse").removeClass("selected");
+          clock.changeDirection();              // and also change direction.
+
+          // Prevent >1 change of direction selection (e.g. "forward" then "reverse")
+          // with clock stopped, which would cause direction to change unexpectedly
+          // when clock is run. Forcing the clock to run whenever a new direction
+          // is selected prevents this bug.
+          $("#start").trigger("click");
         }
-      } else { // And if "reverse" was last selected...
-        $("#forward").addClass("selected");    // Toggle button "selected" status
-        $("#reverse").removeClass("selected");
-        $("#fastReverse").removeClass("selected");
-        clock.changeDirection();               // and also change direction.
       }
     });
 
     $("#fastForward").click(function() { // When ">>" button is clicked...
-      // If "forward" is already selected, don't change direction. But do toggle
-      // button "selected" status if necessary.
-      if($("#forward").hasClass("selected") || $("#fastForward").hasClass("selected")) {
-        clock.keepSameDirection();
-        if($("#forward").hasClass("selected")) {
-          $("#fastForward").addClass("selected");
-          $("#forward").removeClass("selected");
+      if(!clock.isRunning) { // Prevent speed or direction reset if clock is running
+        clock.setSpeed("fast");
+        // If "forward" is already selected, don't change direction. But do toggle
+        // button "selected" status if necessary.
+        if($("#forward").hasClass("selected") || $("#fastForward").hasClass("selected")) {
+          clock.keepSameDirection();
+          if($("#forward").hasClass("selected")) {
+            $("#fastForward").addClass("selected");
+            $("#forward").removeClass("selected");
+          }
+        } else { // And if "reverse" was last selected...
+          $("#fastForward").addClass("selected");    // Toggle button "selected" status
+          $("#reverse").removeClass("selected");
+          $("#fastReverse").removeClass("selected");
+          clock.changeDirection();                   // and also change direction.
+          $("#start").trigger("click");
         }
-      } else { // And if "reverse" was last selected...
-        $("#fastForward").addClass("selected");    // Toggle button "selected" status
-        $("#reverse").removeClass("selected");
-        $("#fastReverse").removeClass("selected");
-        clock.changeDirection();               // and also change direction.
       }
     });
 
     $("#reverse").click(function() { // When "<" button is clicked...
-      // If "reverse" is already selected, don't change direction. But do toggle
-      // button "selected" status if necessary.
-      if($("#reverse").hasClass("selected") || $("#fastReverse").hasClass("selected")) {
-        clock.keepSameDirection();
-        if($("#fastReverse").hasClass("selected")) {
-          $("#reverse").addClass("selected");
-          $("#fastReverse").removeClass("selected");
+      if(!clock.isRunning) { // Prevent speed or direction reset if clock is running
+        clock.setSpeed("normal");
+        // If "reverse" is already selected, don't change direction. But do toggle
+        // button "selected" status if necessary.
+        if($("#reverse").hasClass("selected") || $("#fastReverse").hasClass("selected")) {
+          clock.keepSameDirection();
+          if($("#fastReverse").hasClass("selected")) {
+            $("#reverse").addClass("selected");
+            $("#fastReverse").removeClass("selected");
+          }
+        } else { // And if "forward" was last selected...
+          $("#reverse").addClass("selected");    // Toggle button "selected" status
+          $("#forward").removeClass("selected");
+          $("#fastForward").removeClass("selected");
+          clock.changeDirection();              // and also change direction.
+          $("#start").trigger("click");
         }
-      } else { // And if "forward" was last selected...
-        $("#reverse").addClass("selected");    // Toggle button "selected" status
-        $("#forward").removeClass("selected");
-        $("#fastForward").removeClass("selected");
-        clock.changeDirection();               // and also change direction.
       }
     });
 
     $("#fastReverse").click(function() { // When "<<" button is clicked...
-      // If "reverse" is already selected, don't change direction. But do toggle
-      // button "selected" status if necessary.
-      if($("#reverse").hasClass("selected") || $("#fastReverse").hasClass("selected")) {
-        clock.keepSameDirection();
-        if($("#reverse").hasClass("selected")) {
-          $("#fastReverse").addClass("selected");
-          $("#reverse").removeClass("selected");
+      if(!clock.isRunning) { // Prevent speed or direction reset if clock is running
+        clock.setSpeed("fast");
+        // If "reverse" is already selected, don't change direction. But do toggle
+        // button "selected" status if necessary.
+        if($("#reverse").hasClass("selected") || $("#fastReverse").hasClass("selected")) {
+          clock.keepSameDirection();
+          if($("#reverse").hasClass("selected")) {
+            $("#fastReverse").addClass("selected");
+            $("#reverse").removeClass("selected");
+          }
+        } else { // And if "forward" was last selected...
+          $("#fastReverse").addClass("selected");    // Toggle button "selected" status
+          $("#forward").removeClass("selected");
+          $("#fastForward").removeClass("selected");
+          clock.changeDirection();                  // and also change direction.
+          $("#start").trigger("click");
         }
-      } else { // And if "forward" was last selected...
-        $("#fastReverse").addClass("selected");    // Toggle button "selected" status
-        $("#forward").removeClass("selected");
-        $("#fastForward").removeClass("selected");
-        clock.changeDirection();               // and also change direction.
       }
     });
 
@@ -83,7 +104,11 @@ const app = function($) {
       clock.start();
       $(this).toggle();
       $("#stop").toggle();
+
+      // Can't reset clock, speed, or direction if clock is running
       $("#reset").addClass("disabled");
+      $(".options .button").addClass("disabled");
+      $(".options .selected").removeClass("disabled");
     });
 
     // When STOP button is clicked, stop clock animation, hide STOP button,
@@ -92,7 +117,10 @@ const app = function($) {
       clock.stop();
       $(this).toggle();
       $("#start").toggle();
+
+      // Can reset clock, speed, and/or direction if clock is stopped
       $("#reset").removeClass("disabled");
+      $(".options .button").removeClass("disabled");
 
       // Prevent unexpected direction change next time the clock starts by
       // silently triggering a fresh "click" event on whichever direction button
