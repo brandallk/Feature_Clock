@@ -1,8 +1,8 @@
 // This module creates a Rotator class to be instatiated for each rotating element
 // (i.e. gear) in the clock. It returns a rotator.Rotator object that is used in
 // the clock.js module. It contains the basic methods for rotating elements,
-// starting rotation, stopping rotation, changing rotation direction, and reseting
-// to original position.
+// starting rotation, stopping rotation, changing rotation speed and direction,
+// and reseting to original position.
 // Notes:
 // 1.   The setInterval() function must be given a name because you need the name
 // in order to use clearInterval(). That is why the Rotator class includes an

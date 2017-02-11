@@ -18,13 +18,14 @@
 // factor of (60^(1/3))^3 = 60.
 // 4.   The rate at which the clock runs is controlled by the "tickInterval"
 // variable. If it is set to 1000 (ms), then the clock runs at normal speed. If
-// if is set to <1000, the clock will run at fast-forward speed.
+// if is set to <1000, the clock will run at abnormally fast speed.
 // 5.   The clock gears seem to get out of sync in the animation if you run it
-// faster than about 120ms per tickInterval. This seems to be because of the
+// faster than about 200ms per tickInterval. This seems to be because of the
 // sampling rate the browser uses to render the image.
 //
-// Future work: Need to add methods to "clock" for getting and setting the time,
-// resetting the time, and for setting the clock animation speed.
+// Future work: Need to add methods to "clock" for getting, setting, and resetting
+// the time so it can be matched to a digital display and changed interactively,
+// or set automatically according to local time.
 
 const clock = function() {
 
