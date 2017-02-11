@@ -1,6 +1,6 @@
 // This module initializes the clock app and controls the UI, i.e. the buttons
 // and their event handlers. As currently written, this module requires jQuery.
-// Note: Because index.html loads jQuery from the Google CDN, the app will "brdak"
+// Note: Because index.html loads jQuery from the Google CDN, the app will "break"
 // if it's run offline.
 
 const app = function($) {

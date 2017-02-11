@@ -13,7 +13,7 @@
 // Without rebinding "this", all of the "this" references in rotate() were
 // undefined.
 // 3.   As currently written, this module requires jQuery.
-// Note: Because index.html loads jQuery from the Google CDN, the app will "brdak"
+// Note: Because index.html loads jQuery from the Google CDN, the app will "break"
 // if it's run offline.
 
 var rotator = function($) {
