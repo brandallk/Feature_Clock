@@ -1,6 +1,12 @@
 body {
   font-family: 'Ubuntu Condensed', sans-serif;
   font-weight: bold;
+  background: #e3ede7;
+}
+
+.wrapper {
+  margin: auto;
+  max-width: 520px;
 }
 
 .buttons {
@@ -35,9 +41,11 @@ body {
 .options .button {
   width: 2.2em;
   border-radius: 50%;
+  padding-bottom: 0.2em;
 }
 
 .selected {
-  background: coral;
-  border-color: lightcoral;
+  background: #f3e019;
+  border-color: #fff94c;
+  color: white;
 }
