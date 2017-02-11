@@ -1,7 +1,9 @@
 // This module initializes the clock app and controls the UI, i.e. the buttons
-// and their event handlers
+// and their event handlers. As currently written, this module requires jQuery.
+// Note: Because index.html loads jQuery from the Google CDN, the app will "brdak"
+// if it's run offline.
 
-const app = function() {
+const app = function($) {
   function init() {
     $("#start").show();  // START button is visible when app loads
     $("#stop").hide();   // STOP button is hidden when app loads
@@ -36,4 +38,4 @@ const app = function() {
   return {
     init : init
   }
-}();
+}(jQuery);
