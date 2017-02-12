@@ -123,8 +123,8 @@ const app = function($) {
       $(".options .button").removeClass("disabled");
 
       // Prevent unexpected direction change next time the clock starts by
-      // silently triggering a fresh "click" event on whichever direction button
-      // ("<" or ">") is currently selected.
+      // invisibly triggering a fresh "click" event on whichever direction button
+      // ("<", "<<", ">", or ">>") is currently selected.
       if($("#forward").hasClass("selected")) {
         $("#forward").trigger("click");
       }
