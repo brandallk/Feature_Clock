@@ -34,7 +34,7 @@ const clock = function() {
   const twelveHours   = 12 * 60 * 60,  // 12 hours in seconds
         oneHour       = twelveHours / 12, // 1 hour in seconds
         isRunning     = false;            // Tracks whether clock is running
-        $changeDirection = false;         // Tracks rotation direction change
+  let   $changeDirection = false;         // Tracks rotation direction change
 
   // Degrees of rotation per clock tick defined for each rotating element
   const increment = {
