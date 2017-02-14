@@ -22,8 +22,7 @@ const app = function($) {
 
         // The two buttons representing clock animation in the opposite direction
         // -- e.g. "<" and "<<"
-        const $oppDirectionButton1 = $target.parent().siblings().children().first();
-        const $oppDirectionButton2 = $target.parent().siblings().children().last();
+        const $oppDirectionButtons = $target.parent().siblings().children();
 
         // Set the clock animation speed
         if($target.hasClass("fast")) {
@@ -32,27 +31,30 @@ const app = function($) {
           clock.setSpeed("normal");
         }
 
-        // Assign (or reassign) class "selected" to the button clicked and remove
-        // class "selected" from the other 3 buttons.
+        // If a change in clock animation direction was not selected...
         if($target.hasClass("selected") || $targetSibling.hasClass("selected")) {
-          // A change in clock animation direction has not been selected
+          // Don't change the direction.
           clock.keepSameDirection();
+          // But do reassign the "selected" class if a new button was clicked.
           if($targetSibling.hasClass("selected")) {
             $target.addClass("selected");
             $targetSibling.removeClass("selected");
           }
         } else {
-          // A change in clock animation direction has been selected
+          // A change in clock animation direction was selected, so change direction.
           clock.changeDirection();
+          // Then add the "selected" class to the button clicked on...
           $target.addClass("selected");
-          $oppDirectionButton1.removeClass("selected");
-          $oppDirectionButton2.removeClass("selected");
+          // And remove "selected" class from whichever button was previously "selected".
+          $oppDirectionButtons.each(function(i) {
+            $oppDirectionButtons.eq(i).removeClass("selected");
+          });
 
-          // Prevent >1 change of direction selection (e.g. when reverse direction
-          // is already selected, user clicks "forward" then "reverse" without )
-          // with clock stopped, which would cause direction to change unexpectedly
-          // when clock is run. Forcing the clock to run whenever a new direction
-          // is selected prevents this bug.
+          // Prevent >1 change-of-direction selection with clock stopped (as e.g.
+          // when, with reverse direction already selected, user clicks "forward"
+          // then "reverse" without clicking "START" in between), which would cause
+          // direction to change unexpectedly when clock is run. Forcing the clock
+          // to run whenever a new direction is selected prevents this behaviour.
           $("#start").trigger("click");
         }
       }
