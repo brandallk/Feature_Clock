@@ -39,6 +39,10 @@ body {
   margin-bottom: 0.5em;
 }
 
+.options div {
+  display: inline-block;
+}
+
 .options .button {
   width: 2.2em;
   border-radius: 50%;
