@@ -46,59 +46,52 @@ const app = function($) {
           // Then add the "selected" class to the button clicked on...
           $target.addClass("selected");
           // And remove "selected" class from whichever button was previously "selected".
-          $oppDirectionButtons.each(function(i) {
-            $oppDirectionButtons.eq(i).removeClass("selected");
+          $oppDirectionButtons.each(function() {
+            $(this).removeClass("selected");
           });
 
           // Prevent >1 change-of-direction selection with clock stopped (as e.g.
           // when, with reverse direction already selected, user clicks "forward"
           // then "reverse" without clicking "START" in between), which would cause
           // direction to change unexpectedly when clock is run. Forcing the clock
-          // to run whenever a new direction is selected prevents this behaviour.
+          // to run whenever a new direction is selected prevents this behavior.
           $("#start").trigger("click");
         }
       }
     });
 
     // When START button is clicked, start clock animation, hide START button,
-    // and show STOP button
+    // and show STOP button.
     $("#start").click(function() {
       clock.start();
       $(this).toggle();
       $("#stop").toggle();
 
-      // Can't reset clock, speed, or direction if clock is running
-      $("#reset").addClass("disabled");
-      $(".options .button").addClass("disabled");
-      $(".options .selected").removeClass("disabled");
+      // Can't reset clock, speed, or direction if clock is running.
+      $("#reset").addClass("disabled"); // Disable RESET button.
+      // Disable all the arrow buttons except the one "selected".
+      $(".options .button:not(.selected)").addClass("disabled");
     });
 
     // When STOP button is clicked, stop clock animation, hide STOP button,
-    // and show START button
+    // and show START button.
     $("#stop").click(function() {
       clock.stop();
       $(this).toggle();
       $("#start").toggle();
 
-      // Can reset clock, speed, and/or direction if clock is stopped
+      // Can reset clock, speed, and/or direction if clock is stopped.
       $("#reset").removeClass("disabled");
       $(".options .button").removeClass("disabled");
 
       // Prevent unexpected direction change next time the clock starts by
       // invisibly triggering a fresh "click" event on whichever direction button
       // ("<", "<<", ">", or ">>") is currently selected.
-      if($("#forward").hasClass("selected")) {
-        $("#forward").trigger("click");
-      }
-      if($("#fastForward").hasClass("selected")) {
-        $("#fastForward").trigger("click");
-      }
-      if($("#reverse").hasClass("selected")) {
-        $("#reverse").trigger("click");
-      }
-      if($("#fastReverse").hasClass("selected")) {
-        $("#fastReverse").trigger("click");
-      }
+      $(".button", ".options").each(function() {
+        if($(this).hasClass("selected")) {
+          $(this).trigger("click");
+        }
+      });
     });
 
     // When RESET button is clicked, reset all gears back to original rotation
