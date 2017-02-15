@@ -9,6 +9,11 @@ body {
   max-width: 520px;
 }
 
+.digitalDisplay {
+  font-family: 'Roboto Mono', monospace;
+  text-align: center;
+}
+
 .control {
   text-align: center;
   margin-top: 1.5rem;
