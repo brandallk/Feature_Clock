@@ -1,7 +1,7 @@
 body {
   font-family: 'Ubuntu Condensed', sans-serif;
   font-weight: bold;
-  background: #e3ede7;
+  background-image: radial-gradient( 100% 90%, hsla(145, 15%, 90%, 1), hsla(158, 21%, 72%, 1) );
 }
 
 .wrapper {
@@ -9,48 +9,103 @@ body {
   max-width: 520px;
 }
 
-.buttons {
+.control {
   text-align: center;
-  margin-top: 1.5em;
-  margin-bottom: 0.5em;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .button {
-  width: 4.5em;
-  height: 2.2em;
-  margin: 0.5em;
+  width: 4.5rem;
+  height: 2.2rem;
+  margin: 0.5rem;
   border: #74a588 solid 3px;
-  border-radius: 0.5em;
-  background: #5c7a6f;
-  color: #f2f2f2;
+  border-radius: 0.6rem;
+  background-image: radial-gradient( 110% 110%, hsla(161, 100%, 60%, 1), hsla(158, 25%, 48%, 1) );
+  border: 2px solid hsla(141, 20%, 90%, 0.6);
+  color: hsla(0, 0%, 98%, 1);
   font-family: 'Ubuntu Condensed', sans-serif;
   font-weight: bold;
-  font-size: 1em;
+  font-size: 1.15em;
+  position: relative;
+}
+
+/* Create a 2nd border outside the primary border */
+.button::before {
+  content: " ";
+  position: absolute;
+  z-index: -1;
+  top: -3.5px;
+  left: -3.5px;
+  right: -3.5px;
+  bottom: -3.5px;
+  background: linear-gradient( to bottom, hsla(161, 100%, 65%, 1), hsla(161, 100%, 40%, 1) );
+  border-radius: 0.7rem;
   box-shadow: 0 0 2px 2px rgba(199, 219, 207, 0.7);
 }
 
-.button.disabled {
-  background: #b3b3b3;
-  border-color: #ccc;
+/* Remove annoying default blue outline applied by browser when button is clicked */
+.button:focus {
+  outline: none;
 }
 
-.options {
-  text-align: center;
-  margin-bottom: 0.5em;
+.control .button:not(.disabled):active {
+  background-image: radial-gradient( 110% 110%, hsla(161, 100%, 50%, 1), hsla(158, 25%, 42%, 1) );
+}
+
+/* Adjust the 2nd border */
+.control .button:not(.disabled):active::before {
+background: linear-gradient( to bottom, hsla(161, 100%, 55%, 1), hsla(161, 100%, 35%, 1) );
 }
 
 .options div {
   display: inline-block;
 }
 
+.options {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
 .options .button {
-  width: 2.2em;
+  width: 2.1em;
   border-radius: 50%;
-  padding-bottom: 0.2em;
+  padding-bottom: 0.2rem;
+}
+
+/* Adjust the 2nd border */
+.options .button::before{
+  border-radius: 50%;
+}
+
+.options .button:not(.disabled):active {
+  background-image: radial-gradient( 110% 110%, hsla(55, 90%, 48%, 1), hsla(55, 90%, 55%, 1) );
+  border-color: #f8ec75;
+  color: white;
+}
+
+/* Adjust the 2nd border */
+.options .button:not(.disabled):active::before {
+  background: linear-gradient( to bottom, hsla(55, 90%, 75%, 1), hsla(55, 90%, 48%, 1) );
 }
 
 .selected {
-  background: #f3e019;
+  background-image: radial-gradient( 110% 110%, hsla(55, 90%, 48%, 1), hsla(55, 90%, 75%, 1) );
   border-color: #f8ec75;
   color: white;
+}
+
+/* Adjust the 2nd border */
+.selected::before {
+  background: linear-gradient( to bottom, hsla(55, 90%, 75%, 1), hsla(55, 90%, 48%, 1) );
+}
+
+.disabled {
+  background: #b3b3b3;
+  border-color: #ccc;
+}
+
+/* Adjust the 2nd border */
+.disabled::before {
+  background: #b3b3b3;
 }
