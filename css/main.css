@@ -1,7 +1,8 @@
 body {
-  font-family: 'Ubuntu Condensed', sans-serif;
   font-weight: bold;
-  background-image: radial-gradient( 100% 90%, hsla(145, 15%, 90%, 1), hsla(158, 21%, 72%, 1) );
+  background-image: radial-gradient( circle, hsla(120, 4%, 50%, 1), hsla(120, 4%, 40%, 1) );
+  /* Original lighter background: */
+  /*background-image: radial-gradient( 100% 90%, hsla(145, 15%, 90%, 1), hsla(158, 21%, 72%, 1) );*/
 }
 
 .wrapper {
@@ -11,6 +12,10 @@ body {
 
 .digitalDisplay {
   font-family: 'Roboto Mono', monospace;
+  color: #00edb6;
+  /*color: #00eda0;*/
+  font-weight: bold;
+  font-size: 1.15em;
   text-align: center;
 }
 
@@ -26,7 +31,7 @@ body {
   margin: 0.5rem;
   border: #74a588 solid 3px;
   border-radius: 0.6rem;
-  background-image: radial-gradient( 110% 110%, hsla(161, 100%, 60%, 1), hsla(158, 25%, 48%, 1) );
+  background-image: radial-gradient( 110% 110%, hsla(161, 100%, 47%, 1), hsla(158, 25%, 48%, 1) );
   border: 2px solid hsla(141, 20%, 90%, 0.6);
   color: hsla(0, 0%, 98%, 1);
   font-family: 'Ubuntu Condensed', sans-serif;
@@ -46,7 +51,9 @@ body {
   bottom: -3.5px;
   background: linear-gradient( to bottom, hsla(161, 100%, 65%, 1), hsla(161, 100%, 40%, 1) );
   border-radius: 0.7rem;
-  box-shadow: 0 0 2px 2px rgba(199, 219, 207, 0.7);
+  box-shadow: 0 0 3px 3px hsla(120, 4%, 43%, 0.7);
+  /* Original lighter box-shadow: */
+  /*box-shadow: 0 0 2px 2px rgba(199, 219, 207, 0.7);*/
 }
 
 /* Remove annoying default blue outline applied by browser when button is clicked */
