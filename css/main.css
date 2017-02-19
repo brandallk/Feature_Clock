@@ -13,11 +13,14 @@ body {
 .digitalDisplay {
   font-family: 'Roboto Mono', monospace;
   color: #00edb6;
-  /*color: #00eda0;*/
   font-weight: bold;
   font-size: 1.15em;
   text-align: center;
 }
+
+/******************************************************************************
+  Button Styles
+******************************************************************************/
 
 .control {
   text-align: center;
@@ -82,7 +85,7 @@ background: linear-gradient( to bottom, hsla(161, 100%, 55%, 1), hsla(161, 100%,
 .options .button {
   width: 2.1em;
   border-radius: 50%;
-  padding-bottom: 0.2rem;
+  /*padding-bottom: 0.2rem; // Used for the original unicode-based arrows */
 }
 
 /* Adjust the 2nd border */
@@ -120,4 +123,36 @@ background: linear-gradient( to bottom, hsla(161, 100%, 55%, 1), hsla(161, 100%,
 /* Adjust the 2nd border */
 .disabled::before {
   background: #b3b3b3;
+}
+
+/******************************************************************************
+  Arrow Styles -- Arrows created via CSS
+******************************************************************************/
+
+.arrow {
+  display: inline;
+  width: 0;
+  height: 0;
+  border-top: 0.5rem solid transparent;
+  border-bottom: 0.5rem solid transparent;
+}
+
+.left {
+  border-right: 0.6rem solid hsla(0, 0%, 98%, 1);
+  margin-top: 0.15rem;
+  margin-right: 0.15rem;
+}
+
+.left.double {
+  border-right-width: 0.45rem;
+}
+
+.right {
+  border-left: 0.6rem solid hsla(0, 0%, 98%, 1);
+  margin-top: 0.15rem;
+  margin-left: 0.15rem;
+}
+
+.right.double {
+  border-left-width: 0.45rem;
 }

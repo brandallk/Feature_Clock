@@ -255,25 +255,38 @@
         </g>
       </svg>
 
+      <!-- The digital time display below the clock. -->
       <p class="digitalDisplay">
         <span id="hours">12</span>:<span id="minutes">00</span>:<span id="seconds">00</span>
       </p>
 
+      <!-- The START/STOP and RESET buttons. -->
       <section class="control">
         <button id="start" class="button">START</button>
         <button id="stop" class="button">STOP</button>
         <button id="reset" class="button">RESET</button>
       </section>
 
-      <!-- Unicode characters used in the buttons' text to make arrows -->
+      <!-- The forward, reverse, fast-forward, and fast-reverse buttons.
+           Originally, the arrows were unicode characters: &#10094; for "<" and
+           &#10095; for ">". But these were replaced by <div>s styled to make
+           arrows by assigning border properties in the CSS. -->
       <section class="options">
         <div id="reverseDirection">
-          <button id="fastReverse" class="button fast">&#10094;&#10094;</button>
-          <button id="reverse" class="button">&#10094;</button>
+          <button id="fastReverse" class="button fast">
+            <div class="arrow left double"></div><div class="arrow left double"></div>
+          </button>
+          <button id="reverse" class="button">
+            <div class="arrow left"></div>
+          </button>
         </div>
         <div id="forwardDirection">
-          <button id="forward" class="button selected">&#10095;</button>
-          <button id="fastForward" class="button fast">&#10095;&#10095;</button>
+          <button id="forward" class="button selected">
+            <div class="arrow right"></div>
+          </button>
+          <button id="fastForward" class="button fast">
+            <div class="arrow right double"></div><div class="arrow right double"></div>
+          </button>
         </div>
       </section>
 
