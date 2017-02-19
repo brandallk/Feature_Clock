@@ -4,28 +4,45 @@ const clockTime = function() {
   // let clockTime = 3; // 12:00:03
   // let clockTime = 303; // 12:05:03
   // let clockTime = 903; // 12:15:03
-  let clockTime = 3903; // 01:05:03
+  // let clockTime = 3903; // 01:05:03
   // let clockTime = 46801; // 13:00:01 = 01:00:01
+  let clockTime = 0;
   let formattedClockTime = {
     hours: "12",
     minutes: "00",
     seconds: "00"
   };
+  let interval = null;
+  let timerDirection = "forward";
+
+  function setDirection(direction) {
+    timerDirection = direction;
+  }
+
+  function getDirection() {
+    return timerDirection;
+  }
 
   // Update clockTime variable by +1sec (forward direction) or -1sec (reverse
   // direction) for each elapsed tickInterval.
   function timer(increment) {
     // Add increment (either +1sec or -1sec) to variable clockTime
+    clockTime += increment;
   }
-  function startTimer(direction, tickInterval) {
-    // If direction=forward, call timer(+1sec) every tickInterval
-    // If direction=reverse, call timer(-1sec) every tickInterval
-  }
-  function stopTimer() {
-    // clearInterval()
-  }
-  function resetTimer() {
-    // reset time to 0
+
+  function resetTime(reversingPastZero = false) {
+    if(!reversingPastZero) {
+      // reset time to 0
+      clockTime = 0;
+      formattedClockTime = {
+        hours: "12",
+        minutes: "00",
+        seconds: "00"
+      };
+    } else {
+      // reset time to 11:59:59
+      clockTime = 11*60*60 + 59*60 + 59; // 11hrs, 59min, 59sec in seconds
+    }
   }
 
   function formatTimeRange(unformatted) {
@@ -40,7 +57,12 @@ const clockTime = function() {
   }
 
   // Convert current (unformatted) clockTime integer into formattedClockTime
-  function formatTime() {
+  function getClockTime() {
+
+    if( clockTime < 0 ) {
+      resetTime(true);
+      getClockTime();
+    }
 
     let seconds = clockTime;
     let minutes = Math.floor( clockTime / 60 );
@@ -61,8 +83,8 @@ const clockTime = function() {
       // ...and change the minutes.
       formattedClockTime.minutes = formatTimeRange( minutes );
     }
-    // Otherwise, if no more than 12 hours have passed, i.e. hours <= 12...
-    else if ( hours <= 12 ) {
+    // Otherwise, if no more than 12 hours have passed, i.e. hours < 12...
+    else if ( hours < 12 ) {
       // ...change the seconds
       seconds = seconds % 60;
       formattedClockTime.seconds = formatTimeRange( seconds );
@@ -72,24 +94,22 @@ const clockTime = function() {
       // ...and change the hours
       formattedClockTime.hours = formatTimeRange( hours );
     }
-    // Otherwise, if more than 12 hours have passed, i.e. hours > 12...
-    else if ( hours > 12 ) {
+    // Otherwise, if more than 12 hours have passed, i.e. hours >= 12...
+    else if ( hours >= 12 ) {
       // ...reset the clock to 0
-      // ...and restart the timer
+      resetTime();
+      // ...and get time again
+      getClockTime();
     }
 
     return formattedClockTime;
   }
 
-  function getClockTime() {
-    return formatTime();
-    // return formattedClockTime;
-  }
-
   return {
-    startTimer   : startTimer,  // Call this with direction, tickInterval when clock starts running
-    stopTimer    : stopTimer,   // Call this when clock stops running (Pause clockTime)
-    resetTimer   : resetTimer,  // Call this when RESET button is clicked
+    timer : timer,
+    setDirection : setDirection,
+    getDirection : getDirection,
+    resetTime    : resetTime,  // Call this when RESET button is clicked
     getClockTime : getClockTime // Call this every tick to update digital display
   };
 

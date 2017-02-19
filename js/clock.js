@@ -64,11 +64,17 @@ const clock = function() {
   rotators[9] = new rotator.Rotator("#Seconds", increment.seconds, 322.822, 486.243, tickInterval);
 
   // PUBLIC METHODS------------------------------------------------------------
+  function setTickInterval(interval) {
+    tickInterval = interval;
+  }
+  function getTickInterval() {
+    return tickInterval;
+  }
   function setSpeed(speed) {
     if(speed == "normal") {
-      tickInterval = 1000; // Miliseconds per "tick" stays at default value
+      setTickInterval(1000); // Miliseconds per "tick" stays at default value
     } else {
-      tickInterval = 200;  // Fast speed: 125 miliseconds per clock "tick"
+      setTickInterval(200);  // Fast speed: 200 miliseconds per clock "tick"
     }
   }
   function keepSameDirection() {
@@ -116,6 +122,7 @@ const clock = function() {
 
   return {
     isRunning : isRunning,
+    getTickInterval : getTickInterval,
     setSpeed : setSpeed,
     keepSameDirection : keepSameDirection,
     changeDirection : changeDirection,

@@ -4,10 +4,18 @@
 // if it's run offline.
 
 const app = function($) {
+
   function init() {
+
+    let time = clockTime.getClockTime();
+    let increment = 0;
+    let interval = null;
 
     $("#start").show();  // START button is visible when app loads
     $("#stop").hide();   // STOP button is hidden when app loads
+    $("#hours").text(time.hours);
+    $("#minutes").text(time.minutes);
+    $("#seconds").text(time.seconds);
 
     // Click handler for the "forward", "fastForward", "reverse", and "fastReverse" buttons
     $(".button", ".options").click(function() {
@@ -23,6 +31,12 @@ const app = function($) {
         // The two buttons representing clock animation in the opposite direction
         // -- e.g. "<" and "<<"
         const $oppDirectionButtons = $target.parent().siblings().children();
+
+        if($target.parent().hasClass("forwardDirection")) {
+          clockTime.setDirection("forward");
+        } else if($target.parent().hasClass("reverseDirection")) {
+          clockTime.setDirection("reverse");
+        }
 
         // Set the clock animation speed
         if($target.hasClass("fast")) {
@@ -63,7 +77,20 @@ const app = function($) {
     // When START button is clicked, start clock animation, hide START button,
     // and show STOP button.
     $("#start").click(function() {
-      clock.start();
+      if (clockTime.getDirection() == "forward") { increment = 1; }
+      else if (clockTime.getDirection() == "reverse") { increment = -1; }
+
+      // Use the clockTime.js module to get and display time in the digital display
+      clockInterval = clock.getTickInterval();
+      interval = setInterval(function() {
+        clockTime.timer(increment);
+        time = clockTime.getClockTime();
+        $("#hours").text(time.hours);
+        $("#minutes").text(time.minutes);
+        $("#seconds").text(time.seconds);
+      }, clockInterval);
+
+      setTimeout(clock.start(), clockInterval);
       $(this).toggle();
       $("#stop").toggle();
 
@@ -76,6 +103,7 @@ const app = function($) {
     // When STOP button is clicked, stop clock animation, hide STOP button,
     // and show START button.
     $("#stop").click(function() {
+      clearInterval(interval);
       clock.stop();
       $(this).toggle();
       $("#start").toggle();
@@ -99,14 +127,13 @@ const app = function($) {
     $("#reset").click(function() {
       if(!clock.isRunning) {
         clock.reset();
+        clockTime.resetTime();
+        clockTime.getClockTime();
+        $("#hours").text("12");
+        $("#minutes").text("00");
+        $("#seconds").text("00");
       }
     });
-
-    // Use the clockTime.js module to get and display time in the digital display
-    let time = clockTime.getClockTime();
-    $("#hours").text(time.hours);
-    $("#minutes").text(time.minutes);
-    $("#seconds").text(time.seconds);
   }
 
   return {
