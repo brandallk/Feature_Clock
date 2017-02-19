@@ -144,7 +144,7 @@ background: linear-gradient( to bottom, hsla(161, 100%, 55%, 1), hsla(161, 100%,
 }
 
 .left.double {
-  border-right-width: 0.4rem;
+  border-right-width: 0.3rem;
 }
 
 .right {
@@ -154,5 +154,5 @@ background: linear-gradient( to bottom, hsla(161, 100%, 55%, 1), hsla(161, 100%,
 }
 
 .right.double {
-  border-left-width: 0.4rem;
+  border-left-width: 0.3rem;
 }
