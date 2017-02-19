@@ -28,6 +28,17 @@ const clockTime = function() {
     // reset time to 0
   }
 
+  function formatTimeRange(unformatted) {
+    // If less than 10 units of the given time Range have passed, e.g. hours < 10...
+    if ( unformatted < 10 ) {
+      // ...only change the 2nd digit
+      return "0" + unformatted;
+    } else {
+    // Otherwise change both digits.
+      return unformatted;
+    }
+  }
+
   // Convert current (unformatted) clockTime integer into formattedClockTime
   function formatTime() {
 
@@ -37,65 +48,29 @@ const clockTime = function() {
 
     console.log(hours + ", " + minutes + ", " + seconds);
 
-    // Helper function, called below
-    function formatSeconds(seconds) {
-      // If less than 10 seconds have passed, i.e. seconds < 10...
-      if ( seconds < 10 ) {
-        // ...only change the 2nd digit: seconds = "0" + seconds
-        return "0" + seconds;
-      } else {
-        // Otherwise change both digits.
-        return seconds;
-      }
-    }
-
-    // Helper function, called below
-    function formatMinutes(minutes) {
-      // If less than 10 minutes have passed, i.e. minutes < 10...
-      if ( minutes < 10 ) {
-        // ...only change the 2nd digit
-        return "0" + minutes;
-      } else {
-      // Otherwise change both digits.
-        return minutes;
-      }
-    }
-
-    // Helper function, called below
-    function formatHours(hours) {
-      // If less than 10 hours have passed, i.e. hours < 10...
-      if ( hours < 10 ) {
-        // ...only change the 2nd digit
-        return "0" + hours;
-      } else {
-      // Otherwise change both digits.
-        return hours;
-      }
-    }
-
     // If less than one minute has passed, i.e. minutes < 1...
     if ( minutes < 1 ) {
       // ...only change the seconds
-      formattedClockTime.seconds = formatSeconds( seconds );
+      formattedClockTime.seconds = formatTimeRange( seconds );
     }
     // Otherwise, if less than one hour has passed, i.e. hours < 1...
     else if ( hours < 1) {
       // ...change the seconds
       seconds = seconds % 60;
-      formattedClockTime.seconds = formatSeconds( seconds );
+      formattedClockTime.seconds = formatTimeRange( seconds );
       // ...and change the minutes.
-      formattedClockTime.minutes = formatMinutes( minutes );
+      formattedClockTime.minutes = formatTimeRange( minutes );
     }
     // Otherwise, if no more than 12 hours have passed, i.e. hours <= 12...
     else if ( hours <= 12 ) {
       // ...change the seconds
       seconds = seconds % 60;
-      formattedClockTime.seconds = formatSeconds( seconds );
+      formattedClockTime.seconds = formatTimeRange( seconds );
       // ...change the minutes
       minutes = minutes % 60;
-      formattedClockTime.minutes = formatMinutes( minutes );
+      formattedClockTime.minutes = formatTimeRange( minutes );
       // ...and change the hours
-      formattedClockTime.hours = formatHours( hours );
+      formattedClockTime.hours = formatTimeRange( hours );
     }
     // Otherwise, if more than 12 hours have passed, i.e. hours > 12...
     else if ( hours > 12 ) {
@@ -107,8 +82,8 @@ const clockTime = function() {
   }
 
   function getClockTime() {
-    formatTime();
-    return formattedClockTime;
+    return formatTime();
+    // return formattedClockTime;
   }
 
   return {
