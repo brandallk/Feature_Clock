@@ -1,24 +1,27 @@
-// A module to track and report clock time.
+// This module creates a digital timer that will run in sync with the clock
+// animation created by the clock.js module, with its output formatted as
+// hh:mm:ss (hh=hours, mm=minutes, ss= seconds). It also includes, with its
+// setDirection() and getDirection() methods, functionality to track the
+// forward vs. reverse direction of time-flow/clock-animation independently of
+// the clock.js module.
 
 const clockTime = function() {
-  // let clockTime = 3; // 12:00:03
-  // let clockTime = 303; // 12:05:03
-  // let clockTime = 903; // 12:15:03
-  // let clockTime = 3903; // 01:05:03
-  // let clockTime = 46801; // 13:00:01 = 01:00:01
+  // Default time values
   let clockTime = 0;
   let formattedClockTime = {
     hours: "12",
     minutes: "00",
     seconds: "00"
   };
-  let interval = null;
-  let timerDirection = "forward";
 
+  let timerDirection = "forward"; // Default time-flow direction
+
+  // Set time-flow direction to either "forward" or "reverse"
   function setDirection(direction) {
     timerDirection = direction;
   }
 
+  // Report currently-set time-flow direction
   function getDirection() {
     return timerDirection;
   }
@@ -26,25 +29,28 @@ const clockTime = function() {
   // Update clockTime variable by +1sec (forward direction) or -1sec (reverse
   // direction) for each elapsed tickInterval.
   function timer(increment) {
-    // Add increment (either +1sec or -1sec) to variable clockTime
+    // Add increment passed as argument (either +1sec or -1sec) to clockTime
     clockTime += increment;
   }
 
-  function resetTime(reversingPastZero = false) {
+  // Reset the time when it passes 12:00:00 in either forward or reverse direction.
+  function resetTime(reversingPastZero = false) { // Forward is default.
+    // For forward direction, i.e. clock has run for 12 hours and is continuing.
     if(!reversingPastZero) {
-      // reset time to 0
+      // Reset time to 0.
       clockTime = 0;
       formattedClockTime = {
         hours: "12",
         minutes: "00",
         seconds: "00"
       };
-    } else {
-      // reset time to 11:59:59
-      clockTime = 11*60*60 + 59*60 + 59; // 11hrs, 59min, 59sec in seconds
+    } else { // For reverse direction, i.e. clock has run backwards to "zero".
+      // Reset time to 11:59:59.
+      clockTime = 11*60*60 + 59*60 + 59; // 11hrs, 59min, 59sec in seconds.
     }
   }
 
+  // Helper function used in getClockTime(), below.
   function formatTimeRange(unformatted) {
     // If less than 10 units of the given time Range have passed, e.g. hours < 10...
     if ( unformatted < 10 ) {
@@ -56,19 +62,26 @@ const clockTime = function() {
     }
   }
 
-  // Convert current (unformatted) clockTime integer into formattedClockTime
+  // Get and convert current (unformatted) clockTime in seconds to hh:mm:ss
+  // formattedClockTime.
   function getClockTime() {
 
+    // If clockTime is negative (i.e. if the clock has been run reverse-direction
+    // past zero), call resetTime() with its "reversingPastZero" argument set to
+    // "true"...
     if( clockTime < 0 ) {
       resetTime(true);
+      // ... and call the present function recursively.
       getClockTime();
     }
 
+    // A set of variables to help make the time-logic that follows easier to reason
+    // about.
     let seconds = clockTime;
     let minutes = Math.floor( clockTime / 60 );
     let hours = Math.floor( clockTime / ( 60*60 ) );
 
-    console.log(hours + ", " + minutes + ", " + seconds);
+    // console.log(hours + ", " + minutes + ", " + seconds); // (for debugging)
 
     // If less than one minute has passed, i.e. minutes < 1...
     if ( minutes < 1 ) {
@@ -83,7 +96,7 @@ const clockTime = function() {
       // ...and change the minutes.
       formattedClockTime.minutes = formatTimeRange( minutes );
     }
-    // Otherwise, if no more than 12 hours have passed, i.e. hours < 12...
+    // Otherwise, if less than 12 hours have passed, i.e. hours < 12...
     else if ( hours < 12 ) {
       // ...change the seconds
       seconds = seconds % 60;
@@ -94,7 +107,7 @@ const clockTime = function() {
       // ...and change the hours
       formattedClockTime.hours = formatTimeRange( hours );
     }
-    // Otherwise, if more than 12 hours have passed, i.e. hours >= 12...
+    // Otherwise, if 12 hours have passed, i.e. hours >= 12...
     else if ( hours >= 12 ) {
       // ...reset the clock to 0
       resetTime();
@@ -106,11 +119,11 @@ const clockTime = function() {
   }
 
   return {
-    timer : timer,
     setDirection : setDirection,
     getDirection : getDirection,
-    resetTime    : resetTime,  // Call this when RESET button is clicked
-    getClockTime : getClockTime // Call this every tick to update digital display
+    timer        : timer,
+    resetTime    : resetTime,
+    getClockTime : getClockTime
   };
 
 }();

@@ -7,15 +7,23 @@ const app = function($) {
 
   function init() {
 
-    let time = clockTime.getClockTime();
+    // Increment for the digital time-display. (This default value changes to +1
+    // or -1 when timer starts).
     let increment = 0;
+
+    // Name for the setInterval() function used to start the digital timer. (It
+    // must be named so it can be cleared with clearInterval().)
     let interval = null;
 
-    $("#start").show();  // START button is visible when app loads
-    $("#stop").hide();   // STOP button is hidden when app loads
+    // Get default values from the clockTime.js module and use them to set the
+    // digital display's initial state.
+    let time = clockTime.getClockTime();
     $("#hours").text(time.hours);
     $("#minutes").text(time.minutes);
     $("#seconds").text(time.seconds);
+
+    $("#start").show();  // START button is visible when app loads
+    $("#stop").hide();   // STOP button is hidden when app loads
 
     // Click handler for the "forward", "fastForward", "reverse", and "fastReverse" buttons
     $(".button", ".options").click(function() {
@@ -32,6 +40,7 @@ const app = function($) {
         // -- e.g. "<" and "<<"
         const $oppDirectionButtons = $target.parent().siblings().children();
 
+        // Set time-flow direction in the clockTime.js module
         if($target.parent().hasClass("forwardDirection")) {
           clockTime.setDirection("forward");
         } else if($target.parent().hasClass("reverseDirection")) {
@@ -74,14 +83,16 @@ const app = function($) {
       }
     });
 
-    // When START button is clicked, start clock animation, hide START button,
-    // and show STOP button.
+    // When START button is clicked...
     $("#start").click(function() {
+      // Set the digital timer to either increment or decrement based on its
+      // current time-flow direction setting.
       if (clockTime.getDirection() == "forward") { increment = 1; }
       else if (clockTime.getDirection() == "reverse") { increment = -1; }
 
-      // Use the clockTime.js module to get and display time in the digital display
-      clockInterval = clock.getTickInterval();
+      // Use the clockTime.js module to get and display time in the digital display.
+      const clockInterval = clock.getTickInterval(); // Either normal or "fast" speed.
+      // Update the digital display once per clockInterval.
       interval = setInterval(function() {
         clockTime.timer(increment);
         time = clockTime.getClockTime();
@@ -90,7 +101,11 @@ const app = function($) {
         $("#seconds").text(time.seconds);
       }, clockInterval);
 
+      // Delay the clock animation for one "tick" interval to keep it in sync
+      // with the digital display.
       setTimeout(clock.start(), clockInterval);
+
+      // Hide START button; show STOP button.
       $(this).toggle();
       $("#stop").toggle();
 
@@ -100,13 +115,12 @@ const app = function($) {
       $(".options .button:not(.selected)").addClass("disabled");
     });
 
-    // When STOP button is clicked, stop clock animation, hide STOP button,
-    // and show START button.
+    // When STOP button is clicked...
     $("#stop").click(function() {
-      clearInterval(interval);
-      clock.stop();
-      $(this).toggle();
-      $("#start").toggle();
+      clearInterval(interval); // Stop the digital timer.
+      clock.stop();            // Stop the clock animation.
+      $(this).toggle();        // Hide the STOP button.
+      $("#start").toggle();    // Show the START button.
 
       // Can reset clock, speed, and/or direction if clock is stopped.
       $("#reset").removeClass("disabled");
@@ -122,11 +136,14 @@ const app = function($) {
       });
     });
 
-    // When RESET button is clicked, reset all gears back to original rotation
-    // position. Only allow reset if clock is stopped.
+    // When RESET button is clicked...
     $("#reset").click(function() {
-      if(!clock.isRunning) {
+      if(!clock.isRunning) { // (Only allow reset if clock is stopped.)
+
+        // ... reset all gears back to original rotation position.
         clock.reset();
+
+        // And reset the digital time display.
         clockTime.resetTime();
         clockTime.getClockTime();
         $("#hours").text("12");
