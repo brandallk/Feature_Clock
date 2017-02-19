@@ -3,9 +3,9 @@
 const clockTime = function() {
   let clockTime = 0;
   let formattedClockTime = {
-    hours: 12,
-    minutes: 00,
-    seconds: 00
+    hours: "12",
+    minutes: "00",
+    seconds: "00"
   };
 
   // Update clockTime variable by +1sec (forward direction) or -1sec (reverse
@@ -32,7 +32,7 @@ const clockTime = function() {
   return {
     startTimer : startTimer, // Call this with direction, tickInterval when clock starts running
     stopTimer : stopTimer, // Call this when clock stops running (Pause clockTime)
-    getClockTime : getClockTime // Call this every tick to update digital display 
+    getClockTime : getClockTime // Call this every tick to update digital display
   };
 
 }();

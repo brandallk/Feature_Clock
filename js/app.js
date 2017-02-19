@@ -101,6 +101,12 @@ const app = function($) {
         clock.reset();
       }
     });
+
+    // Use the clockTime.js module to get and display time in the digital display
+    let time = clockTime.getClockTime();
+    $("#hours").text(time.hours);
+    $("#minutes").text(time.minutes);
+    $("#seconds").text(time.seconds);
   }
 
   return {
